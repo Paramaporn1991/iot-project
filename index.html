@@ -1,18 +1,84 @@
+<!DOCTYPE html>
+
 <html>
+
 <head>
-	<title>WEB AIR</title>
+
+<meta charset="UTF-8">
+
+<title>ควบคุม LED ผ่าน Firebase</title>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
 </head>
+
 <body>
-	<p> home </p>
-	<p> page 1 </p>
-	<p> page 2 </p>
-	<p> page 3 </p>
-	<p> page 4 </p>
-	<p> exit </p>
-	
+
+<h2>🔥 ควบคุมหลอดไฟ LED</h2>
+
+<button onclick="turnOn()">เปิด LED</button>
+
+<button onclick="turnOff()">ปิด LED</button>
+
+<p>สถานะ: <span id="ledStatus">--</span></p>
+
+
+<script>
+
+// ตั้งค่า Firebase
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyC6Q3qQpfIvuOim8Oj3sZhX0SY09ZT-390",
+
+authDomain: "iotproject-9d728.firebaseapp.com",
+
+databaseURL: "https://iotproject-9d728-default-rtdb.firebaseio.com",
+
+projectId: "iotproject-9d728",
+
+storageBucket: "iotproject-9d728.firebasestorage.app",
+
+messagingSenderId: "752308539360",
+
+appId: "1:752308539360:web:328ea67091a0a9807de585"
+
+};
+
+
+// เริ่มต้น Firebase
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.database();
+
+
+function turnOn() {
+
+db.ref("led").set("on");
+
+}
+
+
+function turnOff() {
+
+db.ref("led").set("off");
+
+}
+
+
+// อัปเดตสถานะแบบ real-time
+
+db.ref("led").on("value", (snapshot) => {
+
+document.getElementById("ledStatus").innerText = snapshot.val();
+
+});
+
+</script>
 
 </body>
 
-
 </html>
-
